@@ -36,42 +36,45 @@ def split_sequence(sequence, n_steps_in, n_steps_out):
 
 def main():
 
-    for i in range(1, 8) : 
+    # choose a number of time steps
+    n_steps_in, n_steps_out = 5,10
+
+    for i in range(1, 8): 
 
         problem = i
-        if problem ==1:
+        if problem == 1:
             traindata = np.loadtxt("Lazer/train.txt")
             testdata= np.loadtxt("Lazer/test.txt")
             name= "Lazer"
-        if problem ==2:
+        elif problem == 2:
             traindata = np.loadtxt(  "Sunspot/train.txt")
             testdata= np.loadtxt( "Sunspot/test.txt")
             name= "Sunspot"
-        if problem ==3:
+        elif problem == 3:
             traindata = np.loadtxt("Mackey/train.txt")
-            testdata= np.loadtxt("Mackey/test.txt")  
+            testdata= np.loadtxt("Mackey/test.txt")
             name= "Mackey"
-        if problem ==4:
+        elif problem == 4:
             traindata = np.loadtxt("Lorenz/train.txt")
-            testdata= np.loadtxt("Lorenz/test.txt")  
+            testdata= np.loadtxt("Lorenz/test.txt")
             name= "Lorenz"
-        if problem ==5:
+        elif problem == 5:
             traindata = np.loadtxt( "Rossler/train.txt")
             testdata= np.loadtxt( "Rossler/test.txt")
             name= "Rossler"
-        if problem ==6:
+        elif problem == 6:
             traindata = np.loadtxt("Henon/train.txt")
             testdata= np.loadtxt("Henon/test.txt")
             name= "Henon"
-        if problem ==7:
-            traindata = np.loadtxt("ACFinance/train.txt") 
+        elif problem == 7:
+            traindata = np.loadtxt("ACFinance/train.txt")
             testdata= np.loadtxt("ACFinance/test.txt")
             name= "ACFinance"
-        
+
         print(name)
         print(traindata)
         print(testdata)
-        
+
         train = traindata[0,0:3]
         for x in traindata:
             train = np.concatenate((train, x[3:5]))
@@ -79,9 +82,6 @@ def main():
         for x in testdata:
             test = np.concatenate((test, x[3:5]))
 
-
-        # choose a number of time steps
-        n_steps_in, n_steps_out = 5,10
 
         # split into samples
         train_X, train_Y = split_sequence(train, n_steps_in, n_steps_out)
@@ -105,25 +105,25 @@ def main():
         for i in range(len(test_X)):
             print(test_X[i], test_Y[i])
 
-        if problem ==1:
+        if problem == 1:
             train.to_csv('Lazer/train1.csv')
             test.to_csv('Lazer/test1.csv')
-        if problem ==2:
+        elif problem == 2:
             train.to_csv('Sunspot/train1.csv')
             test.to_csv('Sunspot/test1.csv')
-        if problem ==3:
+        elif problem == 3:
             train.to_csv('Mackey/train1.csv')
             test.to_csv('Mackey/test1.csv')
-        if problem ==4:
+        elif problem == 4:
             train.to_csv('Lorenz/train1.csv')
             test.to_csv('Lorenz/test1.csv')
-        if problem ==5:
+        elif problem == 5:
             train.to_csv('Rossler/train1.csv')
             test.to_csv('Rossler/test1.csv')
-        if problem ==6:
+        elif problem == 6:
             train.to_csv('Henon/train1.csv')
             test.to_csv('Henon/test1.csv')
-        if problem ==7:
+        elif problem == 7:
             train.to_csv('ACFinance/train1.csv')
             test.to_csv('ACFinance/test1.csv') 
         

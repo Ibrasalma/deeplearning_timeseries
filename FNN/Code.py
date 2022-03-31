@@ -316,11 +316,11 @@ def MODEL_RNN(x_train,x_test,y_train,y_test,Num_Exp,n_steps_in,n_steps_out,Epoch
     Step_RMSE=np.zeros([Num_Exp,n_steps_out])
     Best_RMSE=1000   #Assigning a large number 
     start_time=time.time()
-      
+
     # Define hyperparameters
     n_epochs = Epochs
     lr=0.01
-    
+
     x_train = torch.tensor(x_train, dtype = torch.float)
     x_test = torch.tensor(x_test, dtype = torch.float)
     y_train = torch.tensor(y_train, dtype = torch.float)
@@ -332,37 +332,37 @@ def MODEL_RNN(x_train,x_test,y_train,y_test,Num_Exp,n_steps_in,n_steps_out,Epoch
         criterion = nn.MSELoss()
         optimizer = torch.optim.SGD(model.parameters(), lr=lr)
         print("Experiment",run+1,"in progress")
-        for epoch in range(0, n_epochs):
+        for _ in range(n_epochs):
             for i in range(x_train.size(0)):
                 optimizer.zero_grad()    # Clears existing gradients from previous epoch
                 output_val = model(x_train[i])
                 loss = criterion(output_val, y_train[i])
                 loss.backward(retain_graph=True)     # Does backpropagation and calculates gradients
                 optimizer.step()     # Updates the weights accordingly 
-        
+
         y_predicttrain=[]
         for i in range(x_train.size(0)):
             output_val = model(x_train[i])
             y_predicttrain.append(output_val.tolist())
         y_predicttrain=np.array(y_predicttrain)
-        
-        y_predicttest=[] 
+
+        y_predicttest=[]
         for i in range(x_test.size(0)):
             output_val = model(x_test[i])
             y_predicttest.append(output_val.tolist())
         y_predicttest=np.array(y_predicttest)
-        
+
         train_acc[run] = rmse( y_predicttrain,np.array(y_train.tolist()))
-        print("TrainRMSE_Mean",train_acc[run]) 
-        test_acc[run] = rmse( y_predicttest, y_test) 
+        print("TrainRMSE_Mean",train_acc[run])
+        test_acc[run] = rmse( y_predicttest, y_test)
         print("TestRMSE_Mean",test_acc[run]) 
-        
+
         if test_acc[run]<Best_RMSE:
             Best_RMSE=test_acc[run]
             Best_Predict_Test=y_predicttest
         for j in range(n_steps_out):
             Step_RMSE[run][j]=rmse(y_predicttest[:,j], y_test[:,j])
-            
+
     print("Total time for",Num_Exp,"experiments",time.time()-start_time)
     return train_acc,test_acc,Step_RMSE,Best_Predict_Test.reshape(y_test.shape[0], y_test.shape[1])
 
